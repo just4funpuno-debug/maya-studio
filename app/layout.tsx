@@ -16,9 +16,9 @@ export const metadata: Metadata = {
   title: "Maya Studio",
   description: "Panel de contenido para redes sociales",
   icons: {
-    icon: "/favicon.png",
-    shortcut: "/favicon.png",
-    apple: "/favicon.png",
+    icon: [{ url: "/favicon.png", type: "image/png", sizes: "512x512" }],
+    shortcut: [{ url: "/favicon.png", type: "image/png" }],
+    apple: [{ url: "/favicon.png", type: "image/png" }],
   },
 };
 
