@@ -1,0 +1,55 @@
+---
+description: Reglas de trabajo permanentes para maya-studio (confirmación, pasos, seguridad)
+alwaysApply: true
+---
+
+# Reglas de trabajo — Maya Studio
+
+## 1. Confirmación obligatoria
+
+Antes de implementar **cualquier** cambio, explica en lenguaje claro **qué** vas a hacer y **por qué**, y espera confirmación explícita del usuario (`dale`, `sí`, `adelante`, etc.).
+
+Esto incluye, sin excepción:
+- Crear o editar archivos
+- Ejecutar SQL o modificar la base de datos (Supabase)
+- Instalar o desinstalar librerías
+- Cambios en configuración (MCP, env, git)
+
+**No implementes nada** hasta recibir confirmación. Si el usuario solo hace una pregunta informativa, responde sin cambiar nada.
+
+## 2. Paso a paso
+
+Trabaja en pasos pequeños y ordenados, no todo de golpe. Antes de cada paso, explica qué harás en ese paso. Un paso = una acción coherente (un archivo, un comando, una migración).
+
+## 3. Explicar en simple
+
+El usuario es dueño del proyecto y entiende de tecnología, pero quiere decisiones explicadas en lenguaje claro, no solo código. Indica el **porqué** de cada decisión técnica relevante.
+
+## 4. Seguridad de llaves
+
+- Nunca pongas tokens, llaves API ni secretos en el código fuente.
+- Usa `.env.local` (app) o `.cursor/mcp.json` (MCP), siempre ignorados por git.
+- Avisa si algo sensible podría exponerse (commits, logs, URLs públicas, `NEXT_PUBLIC_*` innecesarios).
+
+### Archivos `.example` — prohibido usar para credenciales
+
+- **Nunca** leer, usar ni escribir credenciales en archivos `*.example` (p. ej. `mcp.json.example`).
+- Los archivos `.example` son plantillas públicas que **sí pueden subirse a git**.
+- Las credenciales viven **únicamente** en:
+  - `.env.local` — llaves de la app Next.js
+  - `.cursor/mcp.json` — token MCP de Supabase
+- Si `mcp.json` no existe, **no** usar `.example` como respaldo: pedir al usuario que cree `mcp.json`.
+- Si un script necesita credenciales MCP, debe leer **solo** `.cursor/mcp.json` y fallar con error claro si no existe.
+
+## 5. Cambios en base de datos
+
+Para cualquier cambio en Supabase:
+1. Muestra el SQL o la acción **completa** antes de ejecutarla.
+2. Espera revisión y confirmación del usuario.
+3. Solo entonces ejecútala (MCP, SQL Editor, o script).
+
+## Contexto del proyecto
+
+- **maya-studio**: panel web para generar contenido de redes sociales (TikTok, Instagram, Facebook) de productos de salud/suplementos.
+- Stack: Next.js (App Router), TypeScript, Tailwind, Supabase.
+- No instalar librerías ni construir features no solicitados en la tarea actual.
