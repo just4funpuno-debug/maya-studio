@@ -207,10 +207,13 @@ function ClipsVista({
                 <div className="grid gap-3 sm:grid-cols-2">
                   {str(c.locucion) && (
                     <div className="rounded-[10px] bg-[var(--surface-3)] p-3">
-                      <p className="mb-1 flex items-center gap-1.5 text-[11px] uppercase tracking-[0.04em] text-panel-text-muted">
-                        <Mic className="h-3 w-3" aria-hidden />
-                        Locución
-                      </p>
+                      <div className="mb-1 flex items-center justify-between gap-2">
+                        <p className="flex items-center gap-1.5 text-[11px] uppercase tracking-[0.04em] text-panel-text-muted">
+                          <Mic className="h-3 w-3" aria-hidden />
+                          Locución
+                        </p>
+                        <CopyButton text={str(c.locucion) as string} />
+                      </div>
                       <p className="text-[13px] leading-relaxed text-panel-text">
                         {str(c.locucion)}
                       </p>
@@ -218,10 +221,13 @@ function ClipsVista({
                   )}
                   {str(c.texto_pantalla) && (
                     <div className="rounded-[10px] bg-[var(--surface-3)] p-3">
-                      <p className="mb-1 flex items-center gap-1.5 text-[11px] uppercase tracking-[0.04em] text-panel-text-muted">
-                        <TypeIcon className="h-3 w-3" aria-hidden />
-                        Texto en pantalla
-                      </p>
+                      <div className="mb-1 flex items-center justify-between gap-2">
+                        <p className="flex items-center gap-1.5 text-[11px] uppercase tracking-[0.04em] text-panel-text-muted">
+                          <TypeIcon className="h-3 w-3" aria-hidden />
+                          Texto en pantalla
+                        </p>
+                        <CopyButton text={str(c.texto_pantalla) as string} />
+                      </div>
                       <p className="text-[13px] leading-relaxed text-panel-text">
                         {str(c.texto_pantalla)}
                       </p>

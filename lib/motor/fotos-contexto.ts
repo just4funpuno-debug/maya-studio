@@ -146,6 +146,14 @@ export function mapearTipoReferenciaACategorias(
 ): CategoriaFoto[] {
   const activas = new Set(ctx.categoriasActivas);
   const contenidoActivas = CATEGORIAS_CONTENIDO.filter((c) => activas.has(c));
+  const t = tipo.toLowerCase();
+
+  if (t === "ambas") {
+    const result: CategoriaFoto[] = [];
+    if (activas.has("caja")) result.push("caja");
+    result.push(...contenidoActivas);
+    return result;
+  }
 
   if (
     categoriaExplicita &&
@@ -155,18 +163,11 @@ export function mapearTipoReferenciaACategorias(
     return [categoriaExplicita];
   }
 
-  const t = tipo.toLowerCase();
   if (t === "empaque") {
     return activas.has("caja") ? ["caja"] : [];
   }
   if (t === "contenido") {
     return contenidoActivas;
-  }
-  if (t === "ambas") {
-    const result: CategoriaFoto[] = [];
-    if (activas.has("caja")) result.push("caja");
-    result.push(...contenidoActivas);
-    return result;
   }
   return [];
 }
