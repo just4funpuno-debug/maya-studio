@@ -6,6 +6,7 @@ import {
   metaVistasValida,
   type RedSocialMeta,
 } from "@/lib/metricas/metas-vistas";
+import { requiereAccesoProducto } from "@/lib/auth/permisos";
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 
@@ -43,6 +44,11 @@ export async function actualizarMetaVistas(
 
   if (!pieza) {
     return { ok: false, error: "No se encontró la pieza." };
+  }
+
+  const auth = await requiereAccesoProducto(pieza.producto_id);
+  if (!auth.ok) {
+    return { ok: false, error: auth.error };
   }
 
   const columna = columnaPorRed(red);

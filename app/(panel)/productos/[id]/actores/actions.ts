@@ -2,6 +2,7 @@
 
 import { requiereAdmin } from "@/lib/auth/requiere-admin";
 import { generarActor } from "@/lib/motor/generar-actor";
+import { verificarLimiteGeneracion } from "@/lib/motor/limite-generaciones";
 import { createClient } from "@/lib/supabase/server";
 import {
   ACTORES_BUCKET,
@@ -153,6 +154,9 @@ export async function generarActorAction(
 ): Promise<GenerarActorActionResult> {
   const auth = await requiereAdmin();
   if (!auth.ok) return { ok: false, error: auth.error };
+
+  const limite = await verificarLimiteGeneracion();
+  if (!limite.ok) return { ok: false, error: limite.error };
 
   const resultado = await generarActor(productoId);
 

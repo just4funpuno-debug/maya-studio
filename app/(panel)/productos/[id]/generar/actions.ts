@@ -2,6 +2,7 @@
 
 import { requiereAccesoProducto } from "@/lib/auth/permisos";
 import { generarPieza, type GenerarPiezaResult } from "@/lib/motor/generar";
+import { verificarLimiteGeneracion } from "@/lib/motor/limite-generaciones";
 import { avanzarCalendarioProducto } from "@/lib/productos/avanzar-calendario";
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
@@ -21,6 +22,9 @@ export async function generarPiezaAction(
 ): Promise<GenerarPiezaResult> {
   const auth = await requiereAccesoProducto(productoId);
   if (!auth.ok) return { ok: false, error: auth.error };
+
+  const limite = await verificarLimiteGeneracion();
+  if (!limite.ok) return { ok: false, error: limite.error };
 
   const supabase = await createClient();
   const { data: producto, error } = await supabase
